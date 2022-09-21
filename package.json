@@ -1,0 +1,19 @@
+{
+  "name": "twitter_list_creator",
+  "version": "1.0.0",
+  "description": "creates a twitter list from a user's followed accounts",
+  "repository": "https://github.com/nik-field/TWITTER_LIST_CREATOR",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nik Field",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "twitter-api-sdk": "^1.1.0"
+  }
+}
