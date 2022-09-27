@@ -1,9 +1,13 @@
 import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
 import { Client, auth } from "twitter-api-sdk";
 import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
+app.use(bodyParser.json());
+app.use(cors());
 
 const URL = process.env.URL || "http://127.0.0.1";
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
@@ -23,7 +27,8 @@ const authClient = new auth.OAuth2User({
   callback: `http://local.ordinaryartistservices.com/callback`,
   scopes: ["users.read", "tweet.read", "list.write"],
 });
-const client = new Client(authClient);
+const clientOAuth = new Client(authClient);
+const clientBearer = new Client(process.env.BEARER_TOKEN);
 
 const STATE = "my-state";
 
@@ -57,7 +62,7 @@ app.get("/revoke", async function (req, res) {
 
 app.get("/tweets", async function (req, res) {
   try {
-    const response = await client.lists.listAddMember("1572648727034175489", {
+    const response = await clientOAuth.lists.listAddMember("1572648727034175489", {
       user_id: "15673997",
     });
 
@@ -65,6 +70,15 @@ app.get("/tweets", async function (req, res) {
     res.send(response);
   } catch (error) {
     console.log("tweets error", error);
+  }
+});
+
+app.post("/checkName", async function (req, res) {
+  try {
+    const response = await clientBearer.users.findUserByUsername(req.body.username);
+    res.send(response);
+  } catch (error) {
+    console.log("username retrieval error", error);
   }
 });
 

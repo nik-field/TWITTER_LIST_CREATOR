@@ -43,7 +43,7 @@ function App() {
 
   return (
     <CssBaseline>
-      <Papern
+      <Paper
         elevation={12}
         sx={{
           position: "relative",
